@@ -1,0 +1,57 @@
+{
+  "brand": "Velora",
+  "menu": {
+    "home": "Главная",
+    "favorites": "Избранное",
+    "cart": "Корзина"
+  },
+  "search": "Найти товар",
+  "theme": "Тема",
+  "language": "Язык",
+  "heroTitle": "Velora предлагает премиальные товары с изящным подходом.",
+  "heroDescription": "Адаптивные макеты, плавные переходы и оптимизированный опыт для современных магазинов.",
+  "emptyFavorites": "Список избранного пуст.",
+  "emptyCart": "Ваша корзина пуста. Добавьте товары, чтобы продолжить.",
+  "products": "Товары",
+  "addToCart": "В корзину",
+  "addedToCart": "Добавлено",
+  "removeFromCart": "Удалить из корзины",
+  "addToFavorites": "Добавить в избранное",
+  "addedToFavorites": "Добавлено в избранное",
+  "removedFromFavorites": "Удалено из избранного",
+  "removedFromCart": "Удалено из корзины",
+  "viewFavorites": "Посмотреть избранное",
+  "remove": "Удалить",
+  "back": "Назад",
+  "home": "Главная",
+  "total": "Итого",
+  "contacts": "Контакты",
+  "navigation": "Навигация",
+  "social": "Социальные сети",
+  "copyright": "© {year} Velora. Все права защищены.",
+  "notFoundTitle": "Страница не найдена",
+  "notFoundText": "Запрашиваемая страница не существует.",
+  "goHome": "Вернуться на главную",
+  "productNotFoundTitle": "Товар не найден",
+  "productNotFoundText": "Запрошенный товар не найден.",
+  "loading": "Загрузка...",
+  "errorMessage": "Что-то пошло не так. Повторите попытку.",
+  "cartCount": "Товаров",
+  "favoritesTitle": "Избранное",
+  "cartTitle": "Корзина",
+  "checkout": "Оформить заказ",
+  "removeFavorite": "Убрать из избранного",
+  "emptyState": "Здесь пока нет товаров.",
+  "themeLight": "Светлая",
+  "themeDark": "Тёмная",
+  "toggleLanguage": "Сменить язык",
+  "toggleTheme": "Сменить тему",
+  "discountLabel": "Скидка",
+  "backToCatalog": "Назад к каталогу",
+  "productDetails": "Описание товара"
+  ,"allCategories": "Все категории"
+  ,"showingResults": "Показано {count} результатов"
+  ,"bestDiscounts": "Лучшие скидки"
+  ,"popularPicks": "Популярные товары"
+  ,"budgetPicks": "Выбор по бюджету"
+}

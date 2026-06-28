@@ -1,0 +1,57 @@
+{
+  "brand": "Velora",
+  "menu": {
+    "home": "Home",
+    "favorites": "Favorites",
+    "cart": "Cart"
+  },
+  "search": "Search products",
+  "theme": "Theme",
+  "language": "Language",
+  "heroTitle": "Velora delivers premium essentials with a refined touch.",
+  "heroDescription": "Responsive layouts, smooth transitions and an optimized browsing experience for modern stores.",
+  "emptyFavorites": "Your favorites list is empty.",
+  "emptyCart": "Your cart is empty. Add items to continue.",
+  "products": "Products",
+  "addToCart": "Add to cart",
+  "addedToCart": "Added to cart",
+  "removeFromCart": "Remove from cart",
+  "addToFavorites": "Add to favorites",
+  "addedToFavorites": "Added to favorites",
+  "removedFromFavorites": "Removed from favorites",
+  "removedFromCart": "Removed from cart",
+  "viewFavorites": "View favorites",
+  "remove": "Remove",
+  "back": "Back",
+  "home": "Home",
+  "total": "Total",
+  "contacts": "Contacts",
+  "navigation": "Navigation",
+  "social": "Social",
+  "copyright": "© {year} Velora. All rights reserved.",
+  "notFoundTitle": "Page not found",
+  "notFoundText": "The page you are looking for does not exist.",
+  "goHome": "Go back home",
+  "productNotFoundTitle": "Product not found",
+  "productNotFoundText": "The requested product could not be found.",
+  "loading": "Loading...",
+  "errorMessage": "Something went wrong. Please try again.",
+  "cartCount": "Items",
+  "favoritesTitle": "Your Favorites",
+  "cartTitle": "Your Cart",
+  "checkout": "Checkout",
+  "removeFavorite": "Remove from favorites",
+  "emptyState": "There are no items to display yet.",
+  "themeLight": "Light",
+  "themeDark": "Dark",
+  "toggleLanguage": "Switch language",
+  "toggleTheme": "Toggle theme",
+  "discountLabel": "Discount",
+  "backToCatalog": "Back to catalog",
+  "productDetails": "Product details"
+  ,"allCategories": "All categories"
+  ,"showingResults": "Showing {count} results"
+  ,"bestDiscounts": "Best deals"
+  ,"popularPicks": "Popular picks"
+  ,"budgetPicks": "Budget favorites"
+}
