@@ -2,12 +2,14 @@
   "name": "velora-store",
   "private": true,
   "version": "0.1.0",
+  "homepage": "https://moonrouse.github.io/Velora/",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.5",
