@@ -1,1 +1,0 @@
-import{j as s}from"./index-C62idO4v.js";function c({message:e}){return s.jsxs("section",{className:"status-block shell center-screen",children:[s.jsx("div",{className:"empty-icon",children:"🙂"}),s.jsx("p",{children:e})]})}export{c as E};
