@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 // Notifications removed: react-toastify and custom toast styles deleted
 import AppLayout from './layouts/AppLayout.jsx';
 import { selectLocale, selectTheme } from './redux/uiSlice.js';
@@ -13,7 +13,7 @@ const HomePage = lazy(() => import('./pages/HomePage.jsx'));
 const FavoritesPage = lazy(() => import('./pages/FavoritesPage.jsx'));
 const CartPage = lazy(() => import('./pages/CartPage.jsx'));
 const ProductPage = lazy(() => import('./pages/ProductPage.jsx'));
-const NotFoundPage = lazy(() => import('./pages/NotFoundPage.jsx'));
+const AccountPage = lazy(() => import('./pages/AccountPage.jsx'));
 
 function App() {
   const theme = useSelector(selectTheme);
@@ -37,7 +37,8 @@ function App() {
               <Route path="/favorites" element={<FavoritesPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/product/:id" element={<ProductPage />} />
-              <Route path="*" element={<NotFoundPage />} />
+              <Route path="/account" element={<AccountPage />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </Suspense>
         </ErrorBoundary>

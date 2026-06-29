@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect, useCallback } from 'react';
+import { useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import ProductCard from '../components/ProductCard.jsx';
 import { fetchProducts } from '../services/products.js';
@@ -6,6 +6,8 @@ import { selectLocale, selectSearchQuery } from '../redux/uiSlice.js';
 import { useTranslation } from '../hooks/useTranslation.js';
 import EmptyState from '../components/EmptyState.jsx';
 import Pagination from '../components/Pagination.jsx';
+import { motion } from 'framer-motion';
+import { FiArrowDown, FiRefreshCw, FiShield, FiTruck, FiZap } from 'react-icons/fi';
 
 const PRODUCTS_PER_PAGE = 12;
 
@@ -20,9 +22,11 @@ function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [retryKey, setRetryKey] = useState(0);
+  const hasLoadedCatalog = useRef(false);
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(!hasLoadedCatalog.current);
     setError('');
     fetchProducts(100, locale)
       .then((fetchedProducts) => {
@@ -37,6 +41,7 @@ function HomePage() {
         const derived = Array.from(map.values());
         setCategories(derived);
         setSelectedCategory('all');
+        hasLoadedCatalog.current = true;
       })
       .catch(() => {
         setError(t('errorMessage'));
@@ -44,7 +49,7 @@ function HomePage() {
       .finally(() => {
         setLoading(false);
       });
-  }, [locale, t]);
+  }, [locale, t, retryKey]);
 
   useEffect(() => {
     setSelectedCategory('all');
@@ -79,31 +84,53 @@ function HomePage() {
 
   if (loading) {
     return (
-      <section className="page-home shell center-screen">
-        <p>{t('loading')}</p>
+      <section className="page-home shell" aria-live="polite">
+        <div className="hero-skeleton skeleton" />
+        <div className="product-grid product-grid--loading">
+          {Array.from({ length: 8 }, (_, index) => <div className="product-skeleton skeleton" key={index} />)}
+        </div>
       </section>
     );
   }
 
   if (error) {
     return (
-      <section className="page-home shell center-screen">
+      <section className="page-home shell center-screen status-block">
+        <div className="empty-icon"><FiRefreshCw /></div>
+        <h1>{t('loadErrorTitle')}</h1>
         <p>{error}</p>
+        <button type="button" className="button button--primary" onClick={() => setRetryKey((value) => value + 1)}>{t('retry')}</button>
       </section>
     );
   }
 
   return (
     <section className="page-home shell">
-      <div className="hero-panel">
-        <div>
-          <span className="eyebrow">{t('products')}</span>
+      <motion.div className="hero-panel" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }}>
+        <div className="hero-panel__content">
+          <span className="eyebrow"><span /> {t('newCollection')}</span>
           <h1>{t('heroTitle')}</h1>
           <p>{t('heroDescription')}</p>
+          <div className="hero-panel__actions">
+            <a href="#catalog" className="button button--primary">{t('shopNow')} <FiArrowDown /></a>
+            <span>{t('deliveryNote')}</span>
+          </div>
         </div>
+        <div className="hero-panel__visual" aria-hidden="true">
+          <div className="orb orb--one" />
+          <div className="orb orb--two" />
+          <div className="hero-stat hero-stat--main"><strong>100+</strong><span>{t('curatedProducts')}</span></div>
+          <div className="hero-stat hero-stat--small"><FiZap /><span>{t('fastShopping')}</span></div>
+        </div>
+      </motion.div>
+
+      <div className="benefits" aria-label={t('benefits')}>
+        <div><FiTruck /><span><strong>{t('fastDelivery')}</strong><small>{t('fastDeliveryText')}</small></span></div>
+        <div><FiShield /><span><strong>{t('securePayment')}</strong><small>{t('securePaymentText')}</small></span></div>
+        <div><FiZap /><span><strong>{t('bestPrices')}</strong><small>{t('bestPricesText')}</small></span></div>
       </div>
 
-      <div className="section-header section-header--with-actions">
+      <div className="section-header section-header--with-actions" id="catalog">
         <div>
           <h2>{t('products')}</h2>
           <p>{t('showingResults', { count: visibleProducts.length })}</p>
@@ -129,11 +156,11 @@ function HomePage() {
         <EmptyState message={t('emptyState')} />
       ) : (
         <>
-          <div className="product-grid">
-            {pagedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+          <motion.div className="product-grid" initial="hidden" animate="visible" variants={{ visible: { transition: { staggerChildren: 0.045 } } }}>
+            {pagedProducts.map((product, index) => (
+              <ProductCard key={product.id} product={product} index={index} />
             ))}
-          </div>
+          </motion.div>
           <Pagination currentPage={currentPage} totalPages={totalPages} onChange={setCurrentPage} />
         </>
       )}

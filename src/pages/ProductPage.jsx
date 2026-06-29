@@ -1,8 +1,7 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { FiArrowLeft } from 'react-icons/fi';
-import { AiFillHeart } from 'react-icons/ai';
+import { FiArrowLeft, FiHeart, FiShield, FiStar, FiTruck } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import { addToCart, removeFromCart, toggleFavorite, selectCart, selectFavorites } from '../redux/cartSlice.js';
 import { fetchProductById } from '../services/products.js';
@@ -22,6 +21,7 @@ function ProductPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [errorType, setErrorType] = useState('');
+  const loadedProductId = useRef(null);
 
   useEffect(() => {
     if (!id) {
@@ -38,13 +38,17 @@ function ProductPage() {
       return;
     }
 
-    setLoading(true);
+    const isNewProduct = loadedProductId.current !== productId;
+    setLoading(isNewProduct);
     setError('');
     setErrorType('');
-    setProduct(null);
+    if (isNewProduct) setProduct(null);
 
     fetchProductById(productId, locale)
-      .then((data) => setProduct(data))
+      .then((data) => {
+        setProduct(data);
+        loadedProductId.current = productId;
+      })
       .catch((fetchError) => {
         if (fetchError?.message === 'PRODUCT_NOT_FOUND') {
           setErrorType('not_found');
@@ -151,6 +155,7 @@ function ProductPage() {
           <div className="product-detail-card__header">
             <span className="product-detail-card__category">{product.categoryLabel}</span>
             <h1>{product.name}</h1>
+            <div className="product-detail-card__rating"><FiStar /> {Number(product.rating || 0).toFixed(1)} · {product.stock} {t('inStock')}</div>
           </div>
           <p className="product-detail-card__description">{product.description}</p>
           <div className="product-detail-card__pricing">
@@ -190,6 +195,7 @@ function ProductPage() {
               ))}
             </ul>
           </div>
+          <div className="product-detail-card__benefits"><span><FiTruck /> {t('fastDelivery')}</span><span><FiShield /> {t('securePayment')}</span></div>
         </motion.div>
       </div>
     </motion.section>

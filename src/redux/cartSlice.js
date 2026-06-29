@@ -16,7 +16,6 @@ const cartSlice = createSlice({
       } else {
         state.cart.push({ ...action.payload, quantity: 1 });
       }
-      state.favorites = state.favorites.filter((item) => item.id !== action.payload.id);
     },
     removeFromCart(state, action) {
       state.cart = state.cart.filter((item) => item.id !== action.payload);
@@ -32,10 +31,6 @@ const cartSlice = createSlice({
       if (exists) {
         state.favorites = state.favorites.filter((item) => item.id !== action.payload.id);
       } else {
-        const alreadyInCart = state.cart.some((item) => item.id === action.payload.id);
-        if (alreadyInCart) {
-          return;
-        }
         state.favorites.push(action.payload);
       }
     },
@@ -43,7 +38,7 @@ const cartSlice = createSlice({
 });
 
 export const { addToCart, removeFromCart, adjustQuantity, toggleFavorite } = cartSlice.actions;
-export const selectFavorites = (state) => state.cart.favorites.filter((item) => !state.cart.cart.some((cartItem) => cartItem.id === item.id));
+export const selectFavorites = (state) => state.cart.favorites;
 export const selectCart = (state) => state.cart.cart;
 export const selectCartCount = (state) => state.cart.cart.reduce((sum, item) => sum + item.quantity, 0);
 export default cartSlice.reducer;

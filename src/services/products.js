@@ -1,4 +1,6 @@
 const API_BASE = 'https://dummyjson.com';
+let catalogCache = null;
+const productCache = new Map();
 
 const CATEGORY_TRANSLATIONS = {
   smartphones: 'Смартфоны',
@@ -132,13 +134,17 @@ const applyLocale = (product, locale) => {
 };
 
 export const fetchProducts = async (limit = 100, locale = 'en') => {
-  const response = await fetch(`${API_BASE}/products?limit=${limit}`);
-  if (!response.ok) {
-    throw new Error('Unable to load products');
+  if (!catalogCache) {
+    const response = await fetch(`${API_BASE}/products?limit=${limit}`);
+    if (!response.ok) {
+      throw new Error('Unable to load products');
+    }
+    const data = await response.json();
+    catalogCache = data.products.filter(validProduct);
+    catalogCache.forEach((product) => productCache.set(String(product.id), product));
   }
-  const data = await response.json();
-  return data.products
-    .filter(validProduct)
+  return catalogCache
+    .slice(0, limit)
     .map((product) => applyLocale(product, locale));
 };
 
@@ -159,6 +165,9 @@ export const fetchProductById = async (id, locale = 'en') => {
   if (!id || Number.isNaN(Number(id))) {
     throw new Error('PRODUCT_NOT_FOUND');
   }
+  const cachedProduct = productCache.get(String(id));
+  if (cachedProduct) return applyLocale(cachedProduct, locale);
+
   const response = await fetch(`${API_BASE}/products/${id}`);
   if (!response.ok) {
     if (response.status === 404) {
@@ -170,6 +179,7 @@ export const fetchProductById = async (id, locale = 'en') => {
   if (!validProduct(product)) {
     throw new Error('PRODUCT_NOT_FOUND');
   }
+  productCache.set(String(product.id), product);
   return applyLocale(product, locale);
 };
 
